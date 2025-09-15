@@ -5,10 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     // Max speed
-    [SerializeField] private float maxSpeed = 3f;
+    [SerializeField] private float moveSpeedMax = 3f;
 
     // Forward Force
     [SerializeField] private float moveForce = 1f;
+
+    // Deceleration
+    [SerializeField] private float moveDeceleration = 10f;
 
     // Rigidbody2D
     private Rigidbody2D rb;
@@ -19,7 +22,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         MoveForward();
         LimitSpeed();
@@ -32,10 +35,15 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(Vector2.up * moveForce);
         }
+        else
+        {
+            // Decelerate
+            rb.velocity = Vector2.Lerp(rb.velocity, Vector2.zero, moveDeceleration * Time.deltaTime);
+        }
     }
 
     private void LimitSpeed()
     {
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
     }
 }
