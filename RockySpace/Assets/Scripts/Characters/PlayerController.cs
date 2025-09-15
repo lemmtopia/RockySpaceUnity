@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : SpaceCharacterController
 {
     // Max speed
     [SerializeField] private float moveSpeedMax = 3f;
@@ -21,10 +21,6 @@ public class PlayerController : MonoBehaviour
 
     // Rigidbody2D
     private Rigidbody2D rb;
-
-    // Borders
-    private float xBorder = 9f;
-    private float yBorder = 5f;
 
     void Start()
     {
@@ -99,28 +95,5 @@ public class PlayerController : MonoBehaviour
     {
         // Limit my magnitude
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
-    }
-
-    private void WarpAround()
-    {
-        // X
-        if (transform.position.x > xBorder)
-        {
-            transform.position = new Vector2(-xBorder, transform.position.y);
-        }
-        else if (transform.position.x < -xBorder)
-        {
-            transform.position = new Vector2(xBorder, transform.position.y);
-        }
-
-        // Y
-        if (transform.position.y > yBorder)
-        {
-            transform.position = new Vector2(transform.position.x, -yBorder);
-        }
-        else if (transform.position.y < -yBorder)
-        {
-            transform.position = new Vector2(transform.position.x, yBorder);
-        }
     }
 }
