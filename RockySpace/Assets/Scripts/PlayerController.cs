@@ -4,8 +4,14 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // Max speed
+    [SerializeField] private float maxSpeed = 3f;
+
+    // Forward Force
+    [SerializeField] private float moveForce = 1f;
+
     // Rigidbody2D
-    [SerializeField] private Rigidbody2D rb;
+    private Rigidbody2D rb;
 
     void Start()
     {
@@ -15,6 +21,21 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
+        MoveForward();
+        LimitSpeed();
+    }
+
+    private void MoveForward()
+    {
+        // Move forward
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            rb.AddForce(Vector2.up * moveForce);
+        }
+    }
+
+    private void LimitSpeed()
+    {
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, maxSpeed);
     }
 }
