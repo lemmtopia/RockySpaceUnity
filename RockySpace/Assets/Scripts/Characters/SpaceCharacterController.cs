@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SpaceCharacterController : MonoBehaviour
 {
+    // Move speed max
+    [SerializeField] protected float moveSpeedMax;
+
     // Borders
     protected float xBorder = 9f;
     protected float yBorder = 5f;
@@ -39,5 +42,11 @@ public class SpaceCharacterController : MonoBehaviour
         {
             transform.position = new Vector2(transform.position.x, yBorder);
         }
+    }
+
+    protected void LimitSpeed(Rigidbody2D rb)
+    {
+        // Limit my magnitude
+        rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
     }
 }

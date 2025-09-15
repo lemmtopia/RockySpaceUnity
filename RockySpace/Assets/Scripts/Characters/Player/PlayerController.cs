@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerController : SpaceCharacterController
 {
-    // Max speed
-    [SerializeField] private float moveSpeedMax = 3f;
-
     // Rotation speed
     [SerializeField] private float rotationSpeed = 60f;
 
@@ -41,7 +38,7 @@ public class PlayerController : SpaceCharacterController
             TurnAround();
         }
 
-        LimitSpeed();
+        LimitSpeed(rb);
         WarpAround();
     }
 
@@ -89,11 +86,5 @@ public class PlayerController : SpaceCharacterController
 
         // Rotate
         transform.up = direction;
-    }
-
-    private void LimitSpeed()
-    {
-        // Limit my magnitude
-        rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
     }
 }
