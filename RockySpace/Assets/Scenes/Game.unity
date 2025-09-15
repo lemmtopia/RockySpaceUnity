@@ -880,8 +880,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4198f8cccd1a0d44b91018373e4c5dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeedMax: 5
-  moveForce: 0.8
+  moveSpeedMax: 10
+  rotationSpeed: 120
+  moveForce: 2
   moveDeceleration: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

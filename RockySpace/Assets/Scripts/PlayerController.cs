@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
     // Max speed
     [SerializeField] private float moveSpeedMax = 3f;
 
+    // Rotation speed
+    [SerializeField] private float rotationSpeed = 60f;
+
     // Forward Force
     [SerializeField] private float moveForce = 1f;
 
@@ -25,6 +28,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         MoveForward();
+        RotateSideways();
         LimitSpeed();
     }
 
@@ -33,7 +37,7 @@ public class PlayerController : MonoBehaviour
         // Move forward
         if (Input.GetKey(KeyCode.UpArrow))
         {
-            rb.AddForce(Vector2.up * moveForce);
+            rb.AddForce(transform.up * moveForce);
         }
         else
         {
@@ -42,8 +46,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void RotateSideways()
+    {
+        // Rotate
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            transform.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime);
+        }
+        else if (Input.GetKey(KeyCode.RightArrow))
+        {
+            transform.Rotate(Vector3.forward * rotationSpeed * -1 * Time.deltaTime);
+        }
+    }
+
     private void LimitSpeed()
     {
+        // Limit my magnitude
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
     }
 }
