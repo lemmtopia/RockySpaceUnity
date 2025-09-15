@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     // Deceleration
     [SerializeField] private float moveDeceleration = 10f;
 
+    // Am I using mouse or not?
+    [SerializeField] private bool isUsingMouse = true;
+
     // Rigidbody2D
     private Rigidbody2D rb;
 
@@ -28,14 +31,30 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         MoveForward();
-        RotateSideways();
+
+        if (isUsingMouse)
+        {
+            LookAtMouse();
+        }
+        else
+        {
+            TurnAround();
+        }
+
         LimitSpeed();
     }
 
     private void MoveForward()
     {
         // Move forward
-        if (Input.GetKey(KeyCode.UpArrow))
+        KeyCode key = KeyCode.UpArrow;
+
+        if (isUsingMouse)
+        {
+            key = KeyCode.Space;
+        }
+
+        if (Input.GetKey(key))
         {
             rb.AddForce(transform.up * moveForce);
         }
@@ -46,7 +65,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void RotateSideways()
+    private void TurnAround()
     {
         // Rotate
         if (Input.GetKey(KeyCode.LeftArrow))
@@ -57,6 +76,18 @@ public class PlayerController : MonoBehaviour
         {
             transform.Rotate(Vector3.forward * rotationSpeed * -1 * Time.deltaTime);
         }
+    }
+
+    private void LookAtMouse()
+    {
+        // Getting the mouse position in World space (inside the scene)
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        // Getting the normalized distance (direction) of me vs. mouse
+        Vector2 direction = (mousePosition - (Vector2)transform.position).normalized;
+
+        // Rotate
+        transform.up = direction;
     }
 
     private void LimitSpeed()
