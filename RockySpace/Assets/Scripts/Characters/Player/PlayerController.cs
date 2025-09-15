@@ -16,6 +16,9 @@ public class PlayerController : SpaceCharacterController
     // Am I using mouse or not?
     [SerializeField] private bool isUsingMouse = true;
 
+    // GameController reference
+    private GameController game;
+
     // Rigidbody2D
     private Rigidbody2D rb;
 
@@ -23,6 +26,9 @@ public class PlayerController : SpaceCharacterController
     {
         // Getting my rb
         rb = GetComponent<Rigidbody2D>();
+
+        // Getting the game
+        game = FindObjectOfType<GameController>();
     }
 
     void FixedUpdate()
@@ -86,5 +92,14 @@ public class PlayerController : SpaceCharacterController
 
         // Rotate
         transform.up = direction;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Meteor")
+        {
+            // Restart
+            game.RestartGame();
+        }
     }
 }
