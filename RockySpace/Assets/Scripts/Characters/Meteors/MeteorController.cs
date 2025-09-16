@@ -10,15 +10,17 @@ public class MeteorController : SpaceCharacterController
     // Mini meteors
     [SerializeField] private GameObject meteorSmall;
 
-    // Rigidbody2D
-    private Rigidbody2D rb;
-
     private float graceTime = 0.1f;
 
     void Start()
     {
-        // Getting my rb
-        rb = GetComponent<Rigidbody2D>();
+        Initialize();
+    }
+
+    protected override void Initialize()
+    {
+        // Copying and pasting my parent's Initialize code
+        base.Initialize();
 
         // Start moving in a random direction
         float angle = Random.Range(0, 2 * Mathf.PI);

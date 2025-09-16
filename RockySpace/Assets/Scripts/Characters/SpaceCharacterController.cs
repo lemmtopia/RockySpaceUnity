@@ -11,14 +11,25 @@ public class SpaceCharacterController : MonoBehaviour
     protected float xBorder = 9f;
     protected float yBorder = 5f;
 
+    // Rigidbody2D
+    protected Rigidbody2D rb;
+
     void Start()
     {
-        
+        Initialize();
     }
 
     void Update()
     {
         
+    }
+
+    protected virtual void Initialize()
+    {
+        // My children will override this...
+        
+        // Getting my rb
+        rb = GetComponent<Rigidbody2D>();
     }
 
     protected void BaseMovementUpdate(Rigidbody2D rb)

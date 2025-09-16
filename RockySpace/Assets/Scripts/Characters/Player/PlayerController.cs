@@ -23,21 +23,16 @@ public class PlayerController : SpaceCharacterController
     // My bullet reference
     [SerializeField] private GameObject bullet;
 
-    // GameController reference
-    private GameController game;
-
-    // Rigidbody2D
-    private Rigidbody2D rb;
-
     private float shootDelay = 0;
 
     void Start()
     {
-        // Getting my rb
-        rb = GetComponent<Rigidbody2D>();
+        Initialize();
+    }
 
-        // Getting the game
-        game = FindObjectOfType<GameController>();
+    private void Update()
+    {
+        Shoot();
     }
 
     void FixedUpdate()
@@ -53,7 +48,7 @@ public class PlayerController : SpaceCharacterController
             TurnAround();
         }
 
-        Shoot();
+        
         BaseMovementUpdate(rb);
     }
 
@@ -65,7 +60,7 @@ public class PlayerController : SpaceCharacterController
             if (isUsingMouse)
             {
                 // Left click
-                if (Input.GetMouseButtonDown(0))
+                if (Input.GetMouseButton(0))
                 {
                     CreateBullet();
                 }
@@ -73,7 +68,7 @@ public class PlayerController : SpaceCharacterController
             else
             {
                 // Spacebar
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKey(KeyCode.Space))
                 {
                     CreateBullet();
                 }
@@ -140,7 +135,7 @@ public class PlayerController : SpaceCharacterController
         if (CheckCollisionObjectTag(collision, collisionTags))
         {
             // Restart
-            game.RestartGame();
+            GameController.instance.RestartGame();
         }
     }
 }

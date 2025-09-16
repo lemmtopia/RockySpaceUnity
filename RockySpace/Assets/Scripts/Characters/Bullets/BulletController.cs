@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class BulletController : SpaceCharacterController
 {
-    private Rigidbody2D rb;
-
     void Start()
     {
-        // Getting my rb
-        rb = GetComponent<Rigidbody2D>();
+        Initialize();       
+    }
+
+    protected override void Initialize()
+    {
+        // Copying and pasting my parent's Initialize code
+        base.Initialize();
 
         // Set my movement
         rb.velocity = transform.up * moveSpeedMax;
