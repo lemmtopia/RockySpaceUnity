@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class PlayerController : SpaceCharacterController
 {
-    // My collision list
-    [SerializeField] private string[] collisionTags;
 
     // Rotation speed
     [SerializeField] private float rotationSpeed = 60f;
@@ -19,11 +17,19 @@ public class PlayerController : SpaceCharacterController
     // Am I using mouse or not?
     [SerializeField] private bool isUsingMouse = true;
 
+    // My collision list
+    [SerializeField] private string[] collisionTags;
+
+    // My bullet reference
+    [SerializeField] private GameObject bullet;
+
     // GameController reference
     private GameController game;
 
     // Rigidbody2D
     private Rigidbody2D rb;
+
+    private float shootDelay = 0;
 
     void Start()
     {
@@ -47,7 +53,40 @@ public class PlayerController : SpaceCharacterController
             TurnAround();
         }
 
+        Shoot();
         BaseMovementUpdate(rb);
+    }
+
+    private void Shoot()
+    {
+        shootDelay -= Time.deltaTime;
+        if (shootDelay <= 0)
+        {
+            if (isUsingMouse)
+            {
+                // Left click
+                if (Input.GetMouseButtonDown(0))
+                {
+                    CreateBullet();
+                }
+            }
+            else
+            {
+                // Spacebar
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    CreateBullet();
+                }
+            }
+        }
+    }
+
+    private void CreateBullet()
+    {
+        GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation);
+        Destroy(newBullet, 1f); // Timeout
+
+        shootDelay = 1f;
     }
 
     private void MoveForward()

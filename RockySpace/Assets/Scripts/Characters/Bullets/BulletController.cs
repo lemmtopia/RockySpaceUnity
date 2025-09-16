@@ -10,6 +10,9 @@ public class BulletController : SpaceCharacterController
     {
         // Getting my rb
         rb = GetComponent<Rigidbody2D>();
+
+        // Set my movement
+        rb.velocity = transform.up * moveSpeedMax;
     }
 
     void FixedUpdate()

@@ -132,6 +132,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1256450929334931651, guid: b0c8dae33adefea43b9c54b160bac038, type: 3}
+      propertyPath: m_Radius
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 3970857889479184970, guid: b0c8dae33adefea43b9c54b160bac038, type: 3}
       propertyPath: m_Name
       value: MeteorSmall

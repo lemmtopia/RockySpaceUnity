@@ -36,7 +36,6 @@ public class SpaceCharacterController : MonoBehaviour
 
             if (collided)
             {
-                Debug.Log(tag);
                 return true;
             }
         }

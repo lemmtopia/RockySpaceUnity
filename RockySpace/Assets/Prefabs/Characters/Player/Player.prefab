@@ -204,9 +204,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeedMax: 10
-  collisionTags:
-  - Meteor
   rotationSpeed: 120
   moveForce: 2
   moveDeceleration: 1
   isUsingMouse: 1
+  collisionTags:
+  - Meteor
+  bullet: {fileID: 4598796522185939567, guid: 03545061549fdaf4daacfb991e5e3546, type: 3}
