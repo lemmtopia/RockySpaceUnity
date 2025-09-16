@@ -7,8 +7,13 @@ public class MeteorController : SpaceCharacterController
     // My collision list
     [SerializeField] private string[] collisionTags;
 
+    // Mini meteors
+    [SerializeField] private GameObject meteorSmall;
+
     // Rigidbody2D
     private Rigidbody2D rb;
+
+    private float graceTime = 0.1f;
 
     void Start()
     {
@@ -26,12 +31,38 @@ public class MeteorController : SpaceCharacterController
         BaseMovementUpdate(rb);
     }
 
+    private void Update()
+    {
+        graceTime -= Time.deltaTime;
+    }
+
+    private void SetGraceTime(float time)
+    {
+        graceTime = time;
+    }
+
+    private void SpawnSmallMeteors()
+    {
+        GameObject smallA = Instantiate(meteorSmall, transform.position + (0.5f * transform.up), Quaternion.identity);
+        smallA.GetComponent<MeteorController>().SetGraceTime(0.1f);
+        GameObject smallB = Instantiate(meteorSmall, transform.position + (-0.5f * transform.up), Quaternion.identity);
+        smallB.GetComponent<MeteorController>().SetGraceTime(0.1f);
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (CheckCollisionObjectTag(collision, collisionTags))
+        if (graceTime <= 0)
         {
-            Destroy(gameObject);
-            Destroy(collision.gameObject);
+            if (CheckCollisionObjectTag(collision, collisionTags))
+            {
+                if (meteorSmall != null)
+                {
+                    SpawnSmallMeteors();
+                }
+
+                Destroy(gameObject);
+                Destroy(collision.gameObject);
+            }
         }
     }
 }

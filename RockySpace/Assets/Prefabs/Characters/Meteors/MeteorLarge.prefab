@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 0ba4840d690b2f647b490bf76329ead0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -197,3 +197,4 @@ MonoBehaviour:
   collisionTags:
   - Bullet
   - Meteor
+  meteorSmall: {fileID: 7412923013670218507, guid: 08e6c67a2a302fc44adbec15b46df0bf, type: 3}
