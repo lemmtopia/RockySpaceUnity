@@ -20,7 +20,30 @@ public class SpaceCharacterController : MonoBehaviour
     {
         
     }
-    
+
+    protected void BaseMovementUpdate(Rigidbody2D rb)
+    {
+        WarpAround();
+        LimitVelocity(rb);
+    }
+
+    protected bool CheckCollisionObjectTag(Collider2D collision, string[] tags)
+    {
+        for (int i = 0; i < tags.Length; i++)
+        {
+            string tag = tags[i];
+            bool collided = (collision.gameObject.tag == tag);
+
+            if (collided)
+            {
+                Debug.Log(tag);
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     protected void WarpAround()
     {
         // X
@@ -44,7 +67,7 @@ public class SpaceCharacterController : MonoBehaviour
         }
     }
 
-    protected void LimitSpeed(Rigidbody2D rb)
+    protected void LimitVelocity(Rigidbody2D rb)
     {
         // Limit my magnitude
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);

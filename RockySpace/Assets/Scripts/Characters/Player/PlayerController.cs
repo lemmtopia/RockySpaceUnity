@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : SpaceCharacterController
 {
+    // My collision list
+    [SerializeField] private string[] collisionTags;
+
     // Rotation speed
     [SerializeField] private float rotationSpeed = 60f;
 
@@ -44,8 +47,7 @@ public class PlayerController : SpaceCharacterController
             TurnAround();
         }
 
-        LimitSpeed(rb);
-        WarpAround();
+        BaseMovementUpdate(rb);
     }
 
     private void MoveForward()
@@ -96,7 +98,7 @@ public class PlayerController : SpaceCharacterController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Meteor")
+        if (CheckCollisionObjectTag(collision, collisionTags))
         {
             // Restart
             game.RestartGame();

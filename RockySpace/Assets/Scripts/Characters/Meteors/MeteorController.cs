@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class MeteorController : SpaceCharacterController
 {
+    // My collision list
+    [SerializeField] private string[] collisionTags;
+
     // Rigidbody2D
     private Rigidbody2D rb;
 
@@ -18,9 +21,17 @@ public class MeteorController : SpaceCharacterController
         rb.velocity = direction * moveSpeedMax;
     }
 
-    void Update()
+    void FixedUpdate()
     {
-        WarpAround();
-        LimitSpeed(rb);
+        BaseMovementUpdate(rb);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (CheckCollisionObjectTag(collision, collisionTags))
+        {
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
     }
 }

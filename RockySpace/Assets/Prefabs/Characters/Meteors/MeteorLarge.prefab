@@ -194,3 +194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeedMax: 1
+  collisionTags:
+  - Bullet
+  - Meteor
