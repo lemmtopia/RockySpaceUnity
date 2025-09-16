@@ -20,6 +20,6 @@ public class BulletController : SpaceCharacterController
 
     void FixedUpdate()
     {
-        BaseMovementUpdate(rb);
+        BaseMovementUpdate();
     }
 }

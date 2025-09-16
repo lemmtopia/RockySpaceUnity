@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MeteorController : SpaceCharacterController
 {
-    // My collision list
-    [SerializeField] private string[] collisionTags;
-
     // Mini meteors
     [SerializeField] private GameObject meteorSmall;
 
@@ -30,7 +27,7 @@ public class MeteorController : SpaceCharacterController
 
     void FixedUpdate()
     {
-        BaseMovementUpdate(rb);
+        BaseMovementUpdate();
     }
 
     private void Update()
@@ -53,18 +50,15 @@ public class MeteorController : SpaceCharacterController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (graceTime <= 0)
+        if (graceTime <= 0 && CheckCollisionObjectTags(collision))
         {
-            if (CheckCollisionObjectTag(collision, collisionTags))
+            if (meteorSmall != null)
             {
-                if (meteorSmall != null)
-                {
-                    SpawnSmallMeteors();
-                }
-
-                Destroy(gameObject);
-                Destroy(collision.gameObject);
+                SpawnSmallMeteors();
             }
+
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }

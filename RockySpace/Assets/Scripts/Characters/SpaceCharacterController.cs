@@ -7,6 +7,9 @@ public class SpaceCharacterController : MonoBehaviour
     // Move speed max
     [SerializeField] protected float moveSpeedMax;
 
+    // My collision list
+    [SerializeField] protected string[] collisionTags;
+
     // Borders
     protected float xBorder = 9f;
     protected float yBorder = 5f;
@@ -26,23 +29,23 @@ public class SpaceCharacterController : MonoBehaviour
 
     protected virtual void Initialize()
     {
-        // My children will override this...
+        // My children will override this... maybe
         
         // Getting my rb
         rb = GetComponent<Rigidbody2D>();
     }
 
-    protected void BaseMovementUpdate(Rigidbody2D rb)
+    protected void BaseMovementUpdate()
     {
         WarpAround();
         LimitVelocity(rb);
     }
 
-    protected bool CheckCollisionObjectTag(Collider2D collision, string[] tags)
+    protected bool CheckCollisionObjectTags(Collider2D collision)
     {
-        for (int i = 0; i < tags.Length; i++)
+        for (int i = 0; i < collisionTags.Length; i++)
         {
-            string tag = tags[i];
+            string tag = collisionTags[i];
             bool collided = (collision.gameObject.tag == tag);
 
             if (collided)
@@ -56,7 +59,7 @@ public class SpaceCharacterController : MonoBehaviour
 
     protected void WarpAround()
     {
-        // X
+        // Check X border
         if (transform.position.x > xBorder)
         {
             transform.position = new Vector2(-xBorder, transform.position.y);
@@ -66,7 +69,7 @@ public class SpaceCharacterController : MonoBehaviour
             transform.position = new Vector2(xBorder, transform.position.y);
         }
 
-        // Y
+        // Check Y border
         if (transform.position.y > yBorder)
         {
             transform.position = new Vector2(transform.position.x, -yBorder);

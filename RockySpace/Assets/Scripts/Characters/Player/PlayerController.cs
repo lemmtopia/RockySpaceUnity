@@ -17,9 +17,6 @@ public class PlayerController : SpaceCharacterController
     // Am I using mouse or not?
     [SerializeField] private bool isUsingMouse = true;
 
-    // My collision list
-    [SerializeField] private string[] collisionTags;
-
     // My bullet reference
     [SerializeField] private GameObject bullet;
 
@@ -47,9 +44,8 @@ public class PlayerController : SpaceCharacterController
         {
             TurnAround();
         }
-
         
-        BaseMovementUpdate(rb);
+        BaseMovementUpdate();
     }
 
     private void Shoot()
@@ -132,7 +128,7 @@ public class PlayerController : SpaceCharacterController
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (CheckCollisionObjectTag(collision, collisionTags))
+        if (CheckCollisionObjectTags(collision))
         {
             // Restart
             GameController.instance.RestartGame();
