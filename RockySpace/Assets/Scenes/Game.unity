@@ -402,6 +402,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MeteorLarge
       objectReference: {fileID: 0}
+    - target: {fileID: 5165267728553036527, guid: b0c8dae33adefea43b9c54b160bac038, type: 3}
+      propertyPath: meteorsToSpawnAmount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

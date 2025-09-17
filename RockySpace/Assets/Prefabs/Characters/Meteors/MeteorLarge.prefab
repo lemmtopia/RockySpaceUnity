@@ -198,3 +198,4 @@ MonoBehaviour:
   - Bullet
   - Meteor
   meteorSmall: {fileID: 7412923013670218507, guid: 08e6c67a2a302fc44adbec15b46df0bf, type: 3}
+  meteorsToSpawnAmount: 2

@@ -63,23 +63,21 @@ public class MeteorController : SpaceCharacterController
 
         for (int i = 1; i <= amount; i++)
         {
-            float sideMagnitude = (2 * i) / amount;
-            float sideSign = (i % 2 == 0) ? 1 : -1;
-            float side = sideMagnitude * sideSign;
+            angle += (2 * Mathf.PI) / amount;
 
-            SpawnSingleSmallMeteor(angle, side);
+            SpawnSingleSmallMeteor(angle);
         }
     }
 
-    private void SpawnSingleSmallMeteor(float angle, float side)
+    private void SpawnSingleSmallMeteor(float angle)
     {
         // Create new meteor object
-        GameObject newMeteor = Instantiate(meteorSmall, transform.position + (side * 0.5f * transform.up), Quaternion.identity);
+        GameObject newMeteor = Instantiate(meteorSmall, transform.position, Quaternion.identity);
         MeteorController newMeteorComponent = newMeteor.GetComponent<MeteorController>();  // Getting the new object's script
         newMeteorComponent.SetGraceTime(0.1f); // Grace time
 
         // Set motion
-        Vector2 newMeteorMotion = MakeDirectionFromAngle(angle) * side;
+        Vector2 newMeteorMotion = MakeDirectionFromAngle(angle);
         newMeteorComponent.SetMotion(newMeteorMotion);
     }
 
