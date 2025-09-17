@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class MeteorController : SpaceCharacterController
 {
     // Mini meteors
     [SerializeField] private GameObject meteorSmall;
+    [SerializeField] private int meteorsToSpawnAmount;
 
     private float graceTime = 0.1f;
+    private Vector2 motion = Vector2.zero;
+
+    private bool isBigMeteor;
 
     void Start()
     {
         Initialize();
+
+        rb.velocity = motion;
     }
 
     protected override void Initialize()
@@ -19,10 +26,15 @@ public class MeteorController : SpaceCharacterController
         // Copying and pasting my parent's Initialize code
         base.Initialize();
 
-        // Start moving in a random direction
-        float angle = Random.Range(0, 2 * Mathf.PI);
-        Vector2 direction = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
-        rb.velocity = direction * moveSpeedMax;
+        // See if I'm a big meteors based on if I need to spawn little ones
+        isBigMeteor = (meteorsToSpawnAmount > 0);
+
+        if (isBigMeteor)
+        {
+            // Start moving in a random direction if I'm a big meteor
+            Vector2 direction = MakeRandomDirection();
+            SetMotion(direction);
+        }
     }
 
     void FixedUpdate()
@@ -40,22 +52,42 @@ public class MeteorController : SpaceCharacterController
         graceTime = time;
     }
 
-    private void SpawnSmallMeteors()
+    private void SetMotion(Vector2 direction)
     {
-        GameObject smallA = Instantiate(meteorSmall, transform.position + (0.5f * transform.up), Quaternion.identity);
-        smallA.GetComponent<MeteorController>().SetGraceTime(0.1f);
-        GameObject smallB = Instantiate(meteorSmall, transform.position + (-0.5f * transform.up), Quaternion.identity);
-        smallB.GetComponent<MeteorController>().SetGraceTime(0.1f);
+        motion = direction * moveSpeedMax;
+    }
+
+    private void SpawnSmallMeteors(int amount)
+    {
+        float angle = Random.Range(0, 2 * Mathf.PI);
+
+        for (int i = 1; i <= amount; i++)
+        {
+            float sideMagnitude = (2 * i) / amount;
+            float sideSign = (i % 2 == 0) ? 1 : -1;
+            float side = sideMagnitude * sideSign;
+
+            SpawnSingleSmallMeteor(angle, side);
+        }
+    }
+
+    private void SpawnSingleSmallMeteor(float angle, float side)
+    {
+        // Create new meteor object
+        GameObject newMeteor = Instantiate(meteorSmall, transform.position + (side * 0.5f * transform.up), Quaternion.identity);
+        MeteorController newMeteorComponent = newMeteor.GetComponent<MeteorController>();  // Getting the new object's script
+        newMeteorComponent.SetGraceTime(0.1f); // Grace time
+
+        // Set motion
+        Vector2 newMeteorMotion = MakeDirectionFromAngle(angle) * side;
+        newMeteorComponent.SetMotion(newMeteorMotion);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (graceTime <= 0 && CheckCollisionObjectTags(collision))
         {
-            if (meteorSmall != null)
-            {
-                SpawnSmallMeteors();
-            }
+            SpawnSmallMeteors(meteorsToSpawnAmount);
 
             Destroy(gameObject);
             Destroy(collision.gameObject);

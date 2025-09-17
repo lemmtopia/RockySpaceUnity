@@ -85,4 +85,18 @@ public class SpaceCharacterController : MonoBehaviour
         // Limit my magnitude
         rb.velocity = Vector2.ClampMagnitude(rb.velocity, moveSpeedMax);
     }
+
+    protected Vector2 MakeRandomDirection()
+    {
+        // Get a random angle
+        float angle = Random.Range(0, 2 * Mathf.PI);
+
+        return MakeDirectionFromAngle(angle);
+    }
+
+    protected Vector2 MakeDirectionFromAngle(float angle)
+    {
+        // Trigonometry!!!
+        return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+    }
 }
